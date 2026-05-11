@@ -1,0 +1,19 @@
+Feature ID,Feature Name,Category,Priority,Description
+F001,User Registration & Login,Authentication,High,Allow customers and staff to sign up and log in using email and password.
+F002,Role-Based Access Control,Authentication,High,Separate permissions for customers, restaurant admins, and staff.
+F003,Menu Browsing,Customer Experience,High,Let users browse restaurant menus with categories, images, prices, and availability.
+F004,Menu Search & Filters,Customer Experience,High,Search menu items by name and filter by category, dietary preference, or price.
+F005,Item Details & Customization,Customer Experience,High,Show ingredients, add-ons, spice levels, and special instructions for each item.
+F006,Cart System,Ordering,High,Allow users to add, update, remove, and review items before checkout.
+F007,Checkout & Place Order,Ordering,High,Collect delivery or pickup details and submit the final order.
+F008,Payment Integration,Payment,High,Support secure online payment methods for completed orders.
+F009,Invoice Generation,Payment,Medium,Generate downloadable invoices or receipts for each successful order.
+F010,Real-Time Order Tracking,Ordering,High,Show live order status from received to preparing, ready, out for delivery, or completed.
+F011,Order History & Reorder,Customer Experience,Medium,Let users view previous orders and quickly reorder favorite meals.
+F012,Restaurant Admin Dashboard,Admin,High,Provide an operational dashboard for restaurant owners and managers.
+F013,Menu Management,Admin,High,Allow admins to add, edit, disable, and organize menu items and categories.
+F014,Order Management Panel,Admin,High,Let staff update order status, manage queues, and handle fulfillment.
+F015,Restaurant Profile Management,Admin,Medium,Manage branch details, timings, service areas, and supported order modes.
+F016,Notifications,Customer Experience,Medium,Send order confirmation, status updates, and cancellation alerts.
+F017,Responsive Mobile UI,UI/UX,High,Ensure the ordering flow works smoothly on phones, tablets, and desktops.
+F018,Multi-Venue Support,Platform,Medium,Support restaurants, cafes, and cloud kitchens with the same ordering workflow.

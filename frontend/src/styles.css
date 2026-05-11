@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  --bg-top: #f8f6f2;
+  --bg-bottom: #e8eff4;
+  --ink: #15222d;
+  --muted: #54636f;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-border: rgba(255, 255, 255, 0.55);
+  --brand: #0e8c78;
+  --brand-strong: #0b6f60;
+  --warn: #d0872d;
+  --danger: #b0453c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Outfit', 'Segoe UI', Tahoma, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(14, 140, 120, 0.18), transparent 40%),
+    radial-gradient(circle at 82% 15%, rgba(208, 135, 45, 0.15), transparent 36%),
+    linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+}
+
+.page {
+  width: min(960px, 100% - 2.5rem);
+  margin: 0 auto;
+  padding: clamp(2rem, 3.5vw, 3.5rem) 0;
+  display: grid;
+  gap: 1.3rem;
+}
+
+.hero,
+.panel {
+  border: 1px solid var(--surface-border);
+  border-radius: 24px;
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 22px 50px -30px rgba(28, 47, 61, 0.45);
+  animation: rise-in 520ms ease both;
+}
+
+.hero {
+  padding: clamp(1.4rem, 2.5vw, 2.4rem);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--brand-strong);
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Trebuchet MS', sans-serif;
+  line-height: 1.12;
+}
+
+h1 {
+  margin-top: 0.55rem;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+}
+
+.subtitle {
+  margin: 0.8rem 0 0;
+  max-width: 60ch;
+  color: var(--muted);
+}
+
+.panel {
+  padding: clamp(1.2rem, 2.3vw, 2rem);
+  animation-delay: 120ms;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+}
+
+.status-ready {
+  color: var(--brand-strong);
+  background: rgba(14, 140, 120, 0.16);
+  border-color: rgba(14, 140, 120, 0.22);
+}
+
+.status-loading {
+  color: #7f4c10;
+  background: rgba(208, 135, 45, 0.16);
+  border-color: rgba(208, 135, 45, 0.24);
+}
+
+.status-error {
+  color: var(--danger);
+  background: rgba(176, 69, 60, 0.14);
+  border-color: rgba(176, 69, 60, 0.24);
+}
+
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.health-card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 0.95rem;
+  min-height: 98px;
+  display: grid;
+  align-content: start;
+}
+
+.label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.value {
+  margin: 0.45rem 0 0;
+  font-family: 'Space Grotesk', 'Trebuchet MS', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.db-meta {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    width: min(720px, 100% - 1.2rem);
+    padding-block: 1.1rem;
+  }
+
+  .panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .health-grid {
+    grid-template-columns: 1fr;
+  }
+}
