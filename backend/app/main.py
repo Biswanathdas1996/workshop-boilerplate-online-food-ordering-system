@@ -4,7 +4,6 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from typing import List, Optional
 import uuid
-import asyncio
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException, status, WebSocket, WebSocketDisconnect, Query
@@ -91,13 +90,11 @@ def get_db() -> Database:
     return client.get_default_database()
 
 
-def get_current_user_with_db(token: str = Depends(oauth2_scheme)):
+async def get_current_user_with_db(token: str = Depends(oauth2_scheme)):
     """Get current user with database dependency."""
     db = get_db()
     from .auth import get_current_user as _get_current_user
-    import asyncio
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(_get_current_user(token, db))
+    return await _get_current_user(token, db)
 
 
 # ==================== HEALTH CHECK ====================
