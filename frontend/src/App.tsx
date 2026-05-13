@@ -1,85 +1,83 @@
-import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Menu } from './pages/Menu';
+import { Cart } from './pages/Cart';
+import { Checkout } from './pages/Checkout';
+import { Orders } from './pages/Orders';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { MenuManagement } from './pages/MenuManagement';
 
-type HealthResponse = {
-  frontend: string
-  backend: string
-  database: string
-  databaseName?: string | null
+function Navigation() {
+  const { isAuthenticated, user, logout, isStaff } = useAuth();
+
+  return (
+    <nav className="navbar">
+      <div className="nav-brand">
+        <Link to="/">🍔 Food Ordering</Link>
+      </div>
+      <div className="nav-links">
+        {isAuthenticated ? (
+          <>
+            <Link to="/menu">Menu</Link>
+            <Link to="/cart">Cart</Link>
+            <Link to="/orders">Orders</Link>
+            {isStaff && (
+              <>
+                <Link to="/admin">Dashboard</Link>
+                <Link to="/menu-management">Manage Menu</Link>
+              </>
+            )}
+            <span className="user-info">{user?.email}</span>
+            <button className="btn btn-sm" onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/menu">Menu</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
 }
 
-const defaultHealth: HealthResponse = {
-  frontend: 'active',
-  backend: 'connected',
-  database: 'connected',
-  databaseName: null,
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+}
+
+function AppContent() {
+  return (
+    <div className="app">
+      <Navigation />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Navigate to="/menu" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/menu-management" element={<ProtectedRoute><MenuManagement /></ProtectedRoute>} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
 function App() {
-  const [health, setHealth] = useState<HealthResponse>(defaultHealth)
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
-
-  const statusLabel = status === 'ready' ? 'Operational' : status === 'loading' ? 'Checking' : 'Attention'
-
-  useEffect(() => {
-    const loadHealth = async () => {
-      try {
-        const response = await fetch('/api/health')
-        if (!response.ok) {
-          throw new Error('Health request failed')
-        }
-
-        const data = (await response.json()) as HealthResponse
-        setHealth({ ...defaultHealth, ...data })
-        setStatus('ready')
-      } catch {
-        setHealth({
-          frontend: 'active',
-          backend: 'disconnected',
-          database: 'disconnected',
-          databaseName: null,
-        })
-        setStatus('error')
-      }
-    }
-
-    void loadHealth()
-  }, [])
-
   return (
-    <main className="page">
-      <section className="hero">
-        <p className="eyebrow">Starter Environment</p>
-        <h1>Boilerplate Dashboard</h1>
-        <p className="subtitle">React frontend, Python backend, and database wiring at a glance.</p>
-      </section>
-
-      <section className="panel">
-        <div className="panel-head">
-          <h2>System Health</h2>
-          <span className={`status-badge status-${status}`}>{statusLabel}</span>
-        </div>
-
-        <div className="health-grid">
-          <article className="health-card">
-            <p className="label">Frontend</p>
-            <p className="value">{health.frontend}</p>
-          </article>
-
-          <article className="health-card">
-            <p className="label">Backend</p>
-            <p className="value">{health.backend}</p>
-          </article>
-
-          <article className="health-card">
-            <p className="label">Database</p>
-            <p className="value">{health.database}</p>
-          </article>
-        </div>
-
-        <p className="db-meta">{health.databaseName ? `Connected DB: ${health.databaseName}` : 'Connected DB: not set'}</p>
-      </section>
-    </main>
-  )
+    <Router>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;
